@@ -319,8 +319,21 @@
               <v-spacer></v-spacer>
               <v-col align-self="end" class="flex mt-2 pa-0">
                 <div class="d-flex flex-row align-center justify-space-between mt-2 ">
-                  <v-btn variant="plain" @click="daftarMenu = false" >Sudah punya Akun? Login
-                  </v-btn>                  
+                  <!-- <v-btn variant="plain" @click="daftarMenu = false" >Sudah punya Akun? Login -->
+                    <v-dialog class="d-flex flex-row align-center justify-center" max-width="400" v-model="dialog" persistent>
+                      <template v-slot:activator="{ props }">
+                        <v-btn variant="plain" v-bind="props">Sudah punya Akun? Login</v-btn>
+                      </template>
+                      <v-card justify="center" class="px-6 py-3" height="200" width="400" >
+                        <v-card-title class="text-h5 px-0 font-weight-bold">Oops..</v-card-title>
+                        <v-card-text class="px-0 pb-0">Ingin membatalkan pendaftaran?</v-card-text>
+                        <v-card-actions class="py-0 px-0">
+                          <v-spacer></v-spacer>
+                          <v-btn color="info" variant="text" @click="dialog = false"> Batalkan</v-btn>
+                          <v-btn color="error" variant="text" @click="(dialog = false) & (daftarMenu=false) & (resetFormReg()) & (changeTab3()) ">Ya</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                   <v-btn variant="plain"> Bantuan? </v-btn> 
                 </div>
               </v-col>       
@@ -447,6 +460,7 @@
         tabUnggahFoto: false,
         tabDataDiri: false,
         tabDataInstansi: false,
+        dialog: false,
 
 
         path: mdiInformationOutline,
@@ -587,7 +601,14 @@
           this.formHasErrors = true
         }
 
-      }
+      },
+      resetFormReg () {
+        Object.keys(this.formRegistrasi).forEach(f => {
+          this.$refs[f].reset()
+          this.tab='unggahFoto'
+
+        })
+      },
       
     },
     computed: {
@@ -687,5 +708,4 @@
 }
 
 </style>
-
 
