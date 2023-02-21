@@ -140,6 +140,7 @@
 
       <v-overlay v-model="daftarMenu" persistent contained class="align-center justify-center">
         <v-container>
+          <!-- <v-progress-linear :active="loadingLogin" :indeterminate="loadingLogin" absolute color="yellow-darken-2"></v-progress-linear> -->
           <v-card fluid class="px-9 py-12 rounded-card overflow-y-auto scroll-y" height="900" width="1000" tile elevation="0" rounded-0>
             <v-row class="d-flex flex-column overflow-y-auto pa-0 ma-0" height="600">
 
@@ -175,12 +176,12 @@
                           <v-card flat>
                             <v-card-text class="mx-2 mb-2 mt-0 pa-0">
                               <div class="d-flex flex-row align-center justify-space-between">
-                                <div class="d-flex flex-row">
+                                <div class="d-flex flex-row align-center justify-center">
                                   <p class="text-h6 font-weight-bold ma-0">Unggah Foto </p>
-                                  <v-btn variant="plain" size="x-small" class="pa-0">
-                                    <svg-icon class="align-center justify-center pt-1" type="mdi" :path="path">
+                                  <v-btn variant="plain" size="x-small" class="pa-0 align-center justify-center">
+                                    <svg-icon class="align-center justify-center" height="20" width="20" type="mdi" :path="path">
                                     </svg-icon>
-                                    <v-tooltip location="end" activator="parent"> Unggah foto berikut untuk memastikan bahwa anda benar benar manusia
+                                    <v-tooltip max-width="300" location="end" activator="parent"> Unggah foto berikut untuk memastikan bahwa anda bukan robot
                                     </v-tooltip>
                                   </v-btn>
                                 </div>
@@ -239,12 +240,12 @@
                             <v-form v-model="tabDataDiri" ref="formRegistrasi">
                               <v-card-text class="mx-2 mb-2 mt-0 pa-0">
                                 <div class="d-flex flex-row align-center justify-space-between">
-                                  <div class="d-flex flex-row">
+                                  <div class="d-flex flex-row align-center justify-center">
                                     <p class="text-h6 font-weight-bold ma-0">Data Diri </p>
                                     <v-btn variant="plain" size="x-small" class="pa-0" >
-                                      <svg-icon class="align-center justify-center pt-1" type="mdi" :path="path">
+                                      <svg-icon class="align-center justify-center" height="20" width="20" type="mdi" :path="path">
                                       </svg-icon>
-                                      <v-tooltip location="end" activator="parent"> Lengkapi data diri untuk memastikan anda benar benar manusia
+                                      <v-tooltip max-width="300" location="end" activator="parent"> Lengkapi data diri untuk memastikan anda bukan robot
                                       </v-tooltip>
                                     </v-btn>
                                   </div>
@@ -287,12 +288,40 @@
                             <v-form v-model="tabDataInstansi" ref="formRegistrasi">
                               <v-card-text class="mx-2 mb-2 mt-0 pa-0">
                                 <div class="d-flex flex-row align-center justify-space-between">
-                                 <p class="text-h6 font-weight-bold ma-0">Data Instansi </p>
+                                 <div class="d-flex flex-row">
+                                    <p class="text-h6 font-weight-bold ma-0">Data Instansi </p>
+                                    <v-btn variant="plain" size="x-small" class="pa-0" >
+                                      <svg-icon class="align-center justify-center pt-1" type="mdi" :path="path">
+                                      </svg-icon>
+                                      <v-tooltip max-width="300" location="end" activator="parent"> Lengkapi data Instansi untuk memastikan bahwa anda benar merupakan bagian dari:
+                                        <li>Perusahaan</li>
+                                        <li>Instansi Negara</li>
+                                        <li>Lembaga Resmi, Dan</li>
+                                        <li>Partai Resmi</li>
+                                      </v-tooltip>
+                                    </v-btn>
+                                  </div>
+
                                   <div class="d-flex flex-row">
                                     <v-btn variant="text" size="small" @click="changeTab1"> Sebelumnya</v-btn>
 
-                                    <v-btn class="px-4" size="small" rounded="pill" color="info" variant="flat" :disabled="!tabDataDiri || !tabDataInstansi" @click="submitRegistrasi3"> Selanjutnya</v-btn>
+                                    <!-- <v-btn class="px-4" size="small" rounded="pill" color="info" variant="flat" :disabled="!tabDataDiri || !tabDataInstansi" @click="submitRegistrasi3"> Selanjutnya</v-btn> -->
+
+                                    <v-dialog class="d-flex flex-row align-center justify-center" max-width="400" v-model="dialogBuatAkun" persistent>
+                                      <template v-slot:activator="{ props }">
+                                        <v-btn class="px-9" rounded="pill" color="info" variant="flat" size="small" :disabled="!tabDataDiri || !tabDataInstansi" v-bind="props" @click="submitRegistrasi3">Buat Akun</v-btn>
+                                      </template>
+                                      <v-card justify="center" class="px-6 py-3" height="200" width="400" >
+                                        <v-card-title class="text-h5 px-0 font-weight-bold">Akun Berhasil Dibuat!</v-card-title>
+                                        <v-card-text class="px-0 pb-0">Admin SETNEG akan segera memproses akun anda dalam waktu 48 jam. Mohon periksa secara berkala</v-card-text>
+                                        <v-card-actions class="py-0 px-0">
+                                          <v-spacer></v-spacer>
+                                          <v-btn color="info" variant="text" @click="(dialogBuatAkun = false) & (daftarMenu = false)">Terima Kasih</v-btn>
+                                        </v-card-actions>
+                                      </v-card>
+                                    </v-dialog>
                                   </div>
+
                                 </div>
                                 <div class="my-2">
                                   <v-text-field ref='namaInstansiReg' v-model="registerUser.namaInstansiReg" :error-messages="errorMessages" 
@@ -461,6 +490,7 @@
         tabDataDiri: false,
         tabDataInstansi: false,
         dialog: false,
+        dialogBuatAkun: false,
 
 
         path: mdiInformationOutline,
