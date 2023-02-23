@@ -1,9 +1,9 @@
 <template>
-  <v-app class="hero height-auto width-auto"> 
-    <v-main class="d-flex justify-center align-center mx-16 px-16">
-      <v-row no-gutters class="d-flex justify-center align-center width-auto height-auto pa-5 ma-0" width="1200px">
-        <v-col cols="3" class="d-flex flex-row ma-0 pa-0" width="1200px">
-          <v-card class="px-9 py-12 rounded-card" width="100%" height="600" tile elevation="0" rounded-0>
+  <v-app class="hero"> 
+    <v-main class="d-flex justify-center align-center">
+      <container class="d-flex justify-sm-center" fluid style="margin: 0px; padding: 0px; max-width: 1400px; width: 100%; max-height: 600px; height: 100%;">
+
+          <v-card  class="px-9 py-12 rounded-card" style="height: 100%; max-width: 450px; width: 100%" tile elevation="0" rounded-0>
 
             <v-progress-linear :active="loadingLogin" :indeterminate="loadingLogin" absolute color="yellow-darken-2"></v-progress-linear>
 
@@ -48,7 +48,7 @@
                 <a class="font-weight-bold text-decoration-none d-flex justify-center align-center text-body-2 ma-0" href="url"> Lupa Sandi?</a> 
                 <v-card-actions class="px-0 d-flex flex-colum">
                   <v-btn 
-                  class="px-9" 
+                  class="px-7" 
                   block rounded="pill" 
                   color="info" 
                   variant="flat" 
@@ -59,25 +59,20 @@
               </div>
             </v-form>
 
-              <div class="d-flex flex-row align-center justify-center mt-16">
-                <v-card-actions class="d-flex justify-center text-body-2 pr-1 py-0"> Belum punya Akun? </v-card-actions>
-                <a @click="syaratdankondisi = !syaratdankondisi" class="ma-0 font-weight-bold text-decoration-none d-flex justify-center align-center text-body-2" href="javascript:void(0)"> Klik Daftar</a>
-              </div>
+            <div class="d-flex flex-row align-center justify-center mt-16">
+              <v-card-actions class="d-flex justify-center text-body-2 pr-1 py-0"> Belum punya Akun? </v-card-actions>
+              <a @click="syaratdankondisi = !syaratdankondisi" class="ma-0 font-weight-bold text-decoration-none d-flex justify-center align-center text-body-2" href="javascript:void(0)"> Klik Daftar</a>
+            </div>
           </v-card>
-        </v-col>
-        <v-col cols="7">
-          <v-carousel height="600" width="auto" cover cycle hide-delimiters show-arrows="hover" >
-            <v-carousel-item  
-              width="100%"
-              height="100%"
+          <v-carousel style=" height: 100%; width: 100%" class="d-none d-md-block" cover cycle hide-delimiters show-arrows="hover" >
+            <v-carousel-item
+            
               v-for="(item,i) in items"
               :key="i"
               :src="item.src" cover>  
             </v-carousel-item>
           </v-carousel>
-        </v-col>
-      </v-row>
-      
+      </container>
       <v-overlay v-model="syaratdankondisi" persistent contained class="align-center justify-center">
         <v-container>
           <v-card class="px-9 py-12 rounded-card align-center justify-center align-end overflow-y-auto scroll-y" height="820" width="800" tile elevation="0" rounded-0>
@@ -743,5 +738,4 @@
 .v-label{
   font-size: 10px;
 }
-
 </style>
