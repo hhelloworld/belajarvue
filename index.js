@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import App from '../App.vue'
+
 import BDAlogin from '../views/BDAlogin.vue'
 import BDAinbox from '../views/BDAinbox.vue'
 
@@ -6,6 +8,13 @@ import BDAinbox from '../views/BDAinbox.vue'
 export const routes = [
   {
     path: '/',
+    redirect:'/bda_login',
+    name: '/',
+    component: App,
+
+  },
+  {
+    path: '/bda_login',
     name: 'login',
     component: BDAlogin,
 
