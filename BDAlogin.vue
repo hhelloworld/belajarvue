@@ -738,4 +738,14 @@
 .v-label{
   font-size: 10px;
 }
+ @media only screen and (max-width: 360px) {
+  .example{
+     display:block;
+  }
+ }
+ @media only screen and (min-width: 660px) {
+  .example{
+    display: inline-block;
+  }
+ }
 </style>
