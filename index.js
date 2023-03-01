@@ -1,28 +1,62 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from '../App.vue'
-
 import BDAlogin from '../views/BDAlogin.vue'
 import BDAinbox from '../views/BDAinbox.vue'
+
+import suratMasuk from '../views/suratMasuk.vue'
+import drafSurat from '../views/drafSurat.vue'
+import pesanMasuk from '../views/pesanMasuk.vue'
+import kalenderPeta from '../views/kalenderPeta.vue'
+import suratTerkirim from '../views/suratTerkirim.vue'
 
 
 export const routes = [
   {
     path: '/',
-    redirect:'/bda_login',
-    name: '/',
-    component: App,
+    name: 'app',
+    redirect: 'login',
+    component: App
 
   },
   {
-    path: '/bda_login',
+    path: '/login',
     name: 'login',
-    component: BDAlogin,
+    component: BDAlogin
 
   },
   {
     path: '/bda_inbox',
     name: 'inbox',
     component: BDAinbox,
+    redirect: 'suratMasuk',
+    children:[
+      {
+        path: '/suratMasuk',
+        name: 'suratMasuk',
+        component: suratMasuk
+      },
+      {
+        path: '/drafSurat',
+        name: 'drafSurat',
+        component: drafSurat
+      },
+      {
+        path: '/pesanMasuk',
+        name: 'pesanMasuk',
+        component: pesanMasuk
+      },
+      {
+        path: '/kalenderPeta',
+        name: 'kalenderPeta',
+        component: kalenderPeta
+      },
+      {
+        path: '/suratTerkirim',
+        name: 'suratTerkirim',
+        component: suratTerkirim
+      },
+    ]
+
   }
 ]
 
