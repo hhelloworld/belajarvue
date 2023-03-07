@@ -9,6 +9,11 @@ import pesanMasuk from '../views/pesanMasuk.vue'
 import kalenderPeta from '../views/kalenderPeta.vue'
 import suratTerkirim from '../views/suratTerkirim.vue'
 
+import detailSurat from '../views/detailSurat.vue'
+
+import pinSurat from '../views/pinSurat.vue'
+
+
 
 export const routes = [
   {
@@ -30,35 +35,15 @@ export const routes = [
     component: BDAinbox,
     redirect: 'suratMasuk',
     children:[
-      {
-        path: '/suratMasuk',
-        name: 'suratMasuk',
-        component: suratMasuk
-      },
-      {
-        path: '/drafSurat',
-        name: 'drafSurat',
-        component: drafSurat
-      },
-      {
-        path: '/pesanMasuk',
-        name: 'pesanMasuk',
-        component: pesanMasuk
-      },
-      {
-        path: '/kalenderPeta',
-        name: 'kalenderPeta',
-        component: kalenderPeta
-      },
-      {
-        path: '/suratTerkirim',
-        name: 'suratTerkirim',
-        component: suratTerkirim
-      },
+      {path: '/suratMasuk', name: 'suratMasuk', component: suratMasuk, children:[ {path: '/pinSurat', name: 'pinSurat', component: pinSurat,}]},
+      {path: '/drafSurat', name: 'drafSurat', component: drafSurat},
+      {path: '/pesanMasuk', name: 'pesanMasuk', component: pesanMasuk},
+      {path: '/kalenderPeta', name: 'kalenderPeta', component: kalenderPeta},
+      {path: '/suratTerkirim', name: 'suratTerkirim', component: suratTerkirim},
     ]
-
-  }
-]
+  },
+  {path: '/detail_surat', name: 'detailSurat', component: detailSurat}
+  ]
 
 const router = new createRouter({
   history: createWebHashHistory(),
