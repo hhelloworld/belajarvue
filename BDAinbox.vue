@@ -11,48 +11,47 @@
             <v-list density="compact" nav>
               <v-list-item v-for="(item, i) in items" :key="i" :value="item" active-color="info" :to="item.link" link >
                 <template v-slot:prepend>
-                  <v-icon :icon="item.icon"></v-icon>
+                  <v-icon :icon="item.icon" style="width: 22px; height: 22px;"></v-icon>
+                </template>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item>
+            </v-list>
+
+            <v-list density="compact" nav>
+              <v-list-item v-for="(item, i) in items2" :key="i" :value="item" active-color="info" :to="item.link" link >
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon" style="width: 22px; height: 22px;"></v-icon>
                 </template>
                 <v-list-item-title v-text="item.title"></v-list-item-title>
               </v-list-item>
             </v-list>
 
 
-
-            <!-- <v-list-item prepend-icon="mdi-email-outline" title="Surat Masuk" value="inbox"></v-list-item>
-            <v-list-item prepend-icon="mdi-message-outline" title="Pesan" value="message"></v-list-item>
-            <v-list-item prepend-icon="mdi-email-edit-outline" title="Draf" value="draf"></v-list-item>
-            <v-list-item prepend-icon="mdi-calendar-blank-outline" title="Kalender dan Peta" value="calendarMap"></v-list-item>
-            <v-list-item prepend-icon="mdi-email-outline" title="Surat Terkirim" value="sent"></v-list-item>
-            <v-divider class="my-6" :thickness="2"></v-divider>
-            <v-list-item prepend-icon="mdi-account" title="Profil" value="user"></v-list-item>
-            <v-list-item prepend-icon="mdi-apps" title="Aplikasi" value="apps"></v-list-item>
-            <v-spacer></v-spacer>
-            <v-list-item prepend-icon="mdi-exit-to-app" title="Keluar" value="logout"></v-list-item> -->
-
             
         </v-navigation-drawer>
-        <v-app-bar :elevation="0" class="px-lg-5 px-sm-0 align-center bg-transparent" >
-            <div class="d-flex align-center" style="max-width: 600px; width: 100%;">
-              <v-text-field class="justify-start align-center rounded-sm" style="max-width: 400px; width: 100%;" density="compact" label="Cari 'Sambo' " append-inner-icon="mdi-magnify" hide-details single-line @click:append-inner="onClick">
+
+        <v-divider vertical height="24"></v-divider>
+
+         <v-main>
+          <v-app-bar :elevation="0" class="pl-lg-6 px-sm-0 bg-transparent">
+            <div class="d-flex align-center" style="max-width: 700px; width: 100%;">
+              <v-text-field class="justify-start align-center rounded-sm" style="max-width: 700px; width: 100%;" density="compact" label="Cari 'Sambo' " append-inner-icon="mdi-magnify" hide-details single-line @click:append-inner="onClick">
               </v-text-field>
-              <svg-icon class="d-flex justify-center align-center ml-5" type="mdi" :path="filterIco"></svg-icon>
+              <svg-icon class="d-flex justify-center align-center ml-5" type="mdi" :path="filterIco" style="width: 22px; height: 22px;"></svg-icon>
             </div>
             <v-spacer></v-spacer>
-            <div class="d-flex align-center " style="max-width: 600px; width: 100;">
-              <svg-icon class="mr-5 ml-7 d-flex justify-center" type="mdi" :path="refreshIco"></svg-icon>
-              <svg-icon class="mr-5 d-flex justify-center" type="mdi" :path="sortIco"></svg-icon>
-              <svg-icon class="mr-7 d-flex justify-center" type="mdi" :path="tunjukIco"></svg-icon>
+
+            <div class="d-flex align-center" style="max-width: 700px; width: 100;">
+              <svg-icon class="mr-5 ml-7 d-flex justify-center" type="mdi" :path="refreshIco" style="width: 22px; height: 22px;"></svg-icon>
+              <svg-icon class="mr-5 d-flex justify-center" type="mdi" :path="sortIco" style="width: 22px; height: 22px;"></svg-icon>
+              <svg-icon class="mr-7 d-flex justify-center" type="mdi" :path="tunjukIco" style="width: 22px; height: 22px;"></svg-icon>
               <v-pagination :length="2" size="small"></v-pagination>
             </div>
 
           </v-app-bar>
-
-          
-        <v-main style="height: 100%; max-height: 3000px; width:100%; max-width: 3000px;">
-          <v-card class="ml-lg-5 ml-sm-0 d-flex justify-sm-center" fluid style="height: 100%; width:100%; ">
+          <v-container class="pl-lg-6 pr-1 px-sm-0 mx-sm-0 pt-1" style="max-width: 5000px; width: auto;">
             <router-view/>
-          </v-card>
+          </v-container>
         </v-main>
 
       </v-layout>
@@ -84,6 +83,14 @@ export default {
           { title: 'Kalender', icon: 'mdi-calendar-blank-outline', link: "/kalenderPeta" },
           { title: 'Surat Terkirim', icon: 'mdi-email-outline', link: "/suratTerkirim" },
         ],
+
+        items2: [
+          { title: 'Profil Saya', icon: 'mdi-account' },
+          { title: 'Aplikasi', icon: 'mdi-apps' },
+          { title: 'Keluar', icon: 'mdi-exit-to-app', link: "/login" },
+        ],
+
+
         rail: true,
         filterIco: mdiFilterVariant,
         tunjukIco: mdiPaperclip ,
@@ -96,7 +103,7 @@ export default {
     },
     methods: {
       getImageInbox1() {
-        return require("../assets/setneg.png");
+        return require("../assets/s1.png");
       },
       getImageInbox2() {
         return require("../assets/bda.png");
@@ -129,5 +136,7 @@ export default {
 .v-pagination. :deep() .v-btn__overlay :deep() .v-btn:before{
   width: 24px;
   height: 24px;
+}
+.v-main {
 }
 </style>
