@@ -1,62 +1,127 @@
 <template >
-  
-	<v-row v-for="item in suratMasuk" :key="item.namaPengirim" class="mx-2 d-flex flex-colum align-center">
-		<v-col >
-			<v-card hover elevation="0" class="pa-1 d-flex flex-colum align-center" height="52" style="height: 52px; width: 100%; max-width:3000px;"> 
+  <router-view v-show="pinSurat"/>
 
-				<v-card-item class="font-weight-medium text-body-2"> {{ item.namaPengirim }}</v-card-item>  
-				<v-card-item> 
-					<v-tooltip bottom lazy>
-          	<template v-slot:activator="{ props }">
-							<v-chip :style="colorPicker(item)" v-bind="props" style="max-width: 200px;" size="small"><div class=" text-truncate font-weight-bold text-caption px-2">{{item.labelSurat }}</div></v-chip>                
-						</template>
-            <span>{{item.labelSurat }}</span>
-           </v-tooltip>
-				</v-card-item>
-				<v-card-text class="text-truncate align-center td2 text-body-2 font-weight-medium over overflow-x-hidden" style="height: 52px;">{{ item.isiSurat }}</v-card-text>
-				<v-card-item class=" font-weight-medium text-body-2"> {{ item.waktu	 }} </v-card-item>
+  <v-list v-for="item in suratMasuk" :key="item" class="d-flex align-center justify-start fill-width w-100 overflow-hidden" style="height: 56px; max-width: 5000px; width: auto;">
 
-			</v-card>
-		</v-col>
-	</v-row>
+    <v-hover>
+
+      <template v-slot:default="{ isHovering, props }">
+        <v-card @mouseover="(buttonPesan = item) & (buttonArsip = item) & (buttonPin = item)" @mouseleave="(buttonPesan = null) & (buttonArsip = null) & (buttonPin = null)" v-bind="props" :color="isHovering ? 'blue-grey-lighten-5' : undefined" elevation="0" class="px-sm-0 ma-sm-0 d-flex align-center rounded-lg justify-center" style="height: 48px;" link :to="item.link"> 
+
+          <v-card-item v-model="item.namaPengirim" class="font-weight-medium text-body-2"> {{ item.namaPengirim }}</v-card-item>  
+          <v-card-item v-model="item.instansiPengirim" class="font-weight-medium text-body-2"> {{ item.instansiPengirim }}</v-card-item>  
+
+          <v-card-item v-model="item.labelSurat"> 
+            <v-tooltip color="primary" location="right">
+              <template v-slot:activator="{ props }">
+                <v-chip variant="elevated" elevation="0" 
+                :color="item.labelSurat.includes('Audiensi') 
+                || item.labelSurat.includes('Menghadiri/Meresmikan/Meluncurkan/Membuka Acara') 
+                || item.labelSurat.includes('Pidato/Kata Sambutan/Key Note Speech')
+                || item.labelSurat.includes('Keterangan Pemerintah (Sidang bersama DPR RI/DPD RI atau Sidang RAPBN)')
+                || item.labelSurat.includes('Keterangan Pemerintah (Sidang RAPBN)')
+                || item.labelSurat.includes('Kata Pengantar Buku')
+                || item.labelSurat.includes('Bantuan Keuangan/Pembangunan Gedung/Infrastruktur/Lain-lain')
+                || item.labelSurat.includes('Pembahasan Substansi Pada Sidang Kabinet/ Rapat Terbatas/ Penyelesaian Masalah')
+                || item.labelSurat.includes('Pengangkatan Seseorang Pada Jabatan Tertentu')
+                || item.labelSurat.includes('Penetapan Hari Besar/ Tanggal Peringatan Event Tertentu')
+                || item.labelSurat.includes('Piala Presiden/Piala Bergilir')? 'blue-darken-2' : 'teal'" 
+
+                v-bind="props" style="max-width: 200px;" size="small"><div class="text-truncate font-weight-medium text-caption px-2">{{item.labelSurat }}</div></v-chip>                
+              </template>
+              <span >{{item.labelSurat }}</span>
+             </v-tooltip>
+          </v-card-item>
+          <v-card-text v-model="item.isiSurat" class="text-truncate align-center td2 text-body-2 font-weight-medium over overflow-x-hidden">{{ item.isiSurat }}</v-card-text>
+
+          <v-card-item class="px-0" v-show="buttonPesan === item">
+            <v-btn color="blue"  class="px-0 justify-center" variant="plain" v-on:click.prevent="isHovering">
+                <svg-icon style="width: 18px; height: 18px;" type="mdi" :path="buttonPesanIco"></svg-icon>
+            </v-btn>
+          </v-card-item>
+
+          <v-card-item class="px-0" v-show="buttonArsip === item">
+            <v-btn color="blue" class="px-0" variant="plain" v-on:click.prevent="isHovering">
+                <svg-icon style="width: 18px; height: 18px;" type="mdi" :path="buttonArsipIco"></svg-icon>
+            </v-btn>
+          </v-card-item>
+
+          <v-card-item v-model="item.pinLink" class="px-0" v-show="buttonPin === item">
+            <v-btn color="orange-darken-1" style="max-width: 26px" class="px-0 justify-center" variant="plain" link :to="item.pinLink" 
+            @click.stop.prevent="(pinSurat = !pinSurat) & (itemPin(item.namaPengirim))">
+                <svg-icon style="width: 18px; height: 18px;" type="mdi" :path="buttonPinIco"></svg-icon>
+            </v-btn> 
+          </v-card-item>
+
+
+          <v-card-item v-show="suratMasukWaktu" class=" font-weight-medium text-body-2"> {{item.waktu}} </v-card-item>
+
+
+          
+
+
+
+        </v-card>
+      </template>
+    </v-hover>
+  </v-list>
+
 </template>
 
 <script type="text/javascript">
 
   import SvgIcon from '@jamescoyle/vue-icon';
-
-  import { mdiNumeric1BoxOutline } from '@mdi/js';
+  import { mdiSendOutline } from '@mdi/js';
+  import { mdiPin  } from '@mdi/js';
+  import { mdiPlaylistPlus } from '@mdi/js';
 
   export default {
     name: 'BDAinbox',
     components: {
       SvgIcon
     },
+
+
     data(){
       return{
-        kelasSurat: mdiNumeric1BoxOutline,
-        suratMasuk: [
-          { namaPengirim: "Teja Suhendra Bael", instansiPengirim: 'Surat Masuk',   labelSurat: 'Kata Pengantar Buku', isiSurat:'Dalam rangka mewujudkan impian Indonesia yang lebih melayani melalui program Gerakan Indonesia Melayani sebagai salah satu wujud nyata Gerakan Nasional Revolusi Mental, Asosiasi Service Quality Indonesia (ASQI) akan menyelenggarakan acara Hari Indonesia Melayani yang akan dilaksanakan pada: Hari & Tanggal : Sabtu, 22 Januari 2022 Waktu : Pukul 09.00 - 14.00 WIB (Jadwal Acara Pada Proposal) Lokasi : Online via Zoom Meeting Acara : Acara Puncak Hari Indonesia Melayani Sehubungan dengan itu kami mengundang dan mengharapkan kesediaan Bapak Presiden Ir. H. Joko Widodo untuk memberikan keynote speech pada acara Hari Indonesia Melayani tersebut secara taping (rekaman suara)', waktu:'14:05', link: "/suratMasuk" },
-          { namaPengirim: "Joko Widodo", instansiPengirim: 'Surat Masuk',   labelSurat: 'Laporan Kegiatan/Perjalanan Dinas Luar Negeri/Capaian Periodik/ Laporan Tahunan Kelembagaan', isiSurat:'Sekretariat Negara mempunyai tugas menyelenggarakan dukungan teknis dan administrasi serta analisis urusan pemerintahan di bidang kesekretariatan negara untuk membantu Presiden dan Wakil Presiden dalam menyelenggarakan pemerintahan negara.', waktu:'14:05', link: "/suratMasuk" },
-          { namaPengirim: "Ferdy Sambo", instansiPengirim: 'Surat Masuk',   labelSurat: 'Laporan Rahasia TNI/Polri, BIN', isiSurat:'Untuk memperbaiki proses rekruitmen anggota Polri agar semakin berkualitas, Polri telah melakukan perubahan substansi dan kultur yang diwujudkan dalam akselerasi transformasi di tubuh Polri, utamanya pada proses penerimaan anggota Polri dengan mengacu pada prinsip dasar penerimaan yaitu “BETAH” yang merupakan kepanjangan dari Bersih, Transparan, Akuntabel dan Humanis.', waktu:'14:05', link: "/suratMasuk" },
-          ],
+        buttonPesanIco: mdiSendOutline,
+        buttonArsipIco: mdiPlaylistPlus,
+        buttonPinIco: mdiPin,
+
+        suratMasukWaktu: true,
+        buttonPesan: null,
+        buttonArsip: null,
+        buttonPin: null,
+
+        namaPengirimPin: null,
+        instansiPengirimPin: null,
+        labelSuratPin: null,
+        isiSuratPin: null,
+        waktuPin: null,
+        pinSurat: false,
+        pinSuratMasuk: null,
 
       }
     },
     methods: {
-    	colorPicker() {
-    		return(item) => {
-    			if (suratMasuk.labelSurat.includes ('Audiensi','Menghadiri/Meresmikan/Meluncurkan/Membuka Acara, Pidato/Kata Sambutan/Key Note Speech, Penyerahan (Sertifikat/Penghargaan/Kompensasi)','Keterangan Pemerintah (Sidang bersama DPR RI/DPD RI), Keterangan Pemerintah (Sidang RAPBN)','Kata Pengantar Buku','Bantuan Keuangan/Pembangunan Gedung/Infrastruktur/Lain-lain','Pembahasan Substansi Pada Sidang Kabinet/ Rapat Terbatas/ Penyelesaian Masalah','Pengangkatan Seseorang Pada Jabatan Tertentu','Penetapan Hari Besar/ Tanggal Peringatan Event Tertentu','Piala Presiden/Piala Bergilir')) {
-    			this.isColor = 'blue-darken-4';
-    			} else if(suratMasuk.labelSurat.includes('Laporan Rahasia TNI/Polri, BIN', 'Penyampaian Buku/Katalog/Rekomendasi Kebijakan/Proyek Strategis Nasional', 'Laporan Kegiatan/Perjalanan Dinas Luar Negeri/Capaian Periodik/ Laporan Tahunan Kelembagaan', 'Berita Resmi Statistik', 'Saran Pengenaan Sanksi Atas Tidak Dilaksanakannya Rekomendasi (ORI dan KOMNAS HAM)')){
-    				
-    			this.suratPenyampaianColor = true;
-
-    		}
-
-    		}
-    	}
+      
+      itemPin(namaPengirim){
+        this.$store.commit("pinSurat", namaPengirim)
+        this.$router.push({
+            path: '/pinSurat'
+        })
     }
+
+      
+    },
+
+    computed:{
+      suratMasuk(){
+        return this.$store.state.suratMasuk;
+      }
+    },
+
+    
   }
 
 </script>
@@ -82,7 +147,7 @@ table {
 
 .td2{
   display: block;
-  max-height: 1.5em;
+  padding: 0;
   overflow: hidden;
   text-overflow: ellipsis !important;
 
@@ -90,18 +155,22 @@ table {
 .td2 :after{
   white-space: nowrap;
   text-overflow: ellipsis !important;
+  max-width: 3000px;
+  width: 100%;
 
 }
 .chipPanjang {
-  	display: inline-block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 100px;
+    display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
 }
 .tip {
-	
+  
   display: block !important;
   background-color: #E5E5E5;
 }
+
+
 </style>
